@@ -4,20 +4,80 @@
 <div class="untree_co-section product-section before-footer-section">
     <div class="container">
         <div class="row">
-            <!-- Sidebar categories -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                <h3>Categories</h3>
-                <ul>
-                    <li {% if not category %} class="selected" {% endif %}>
-                        <a href="{% url 'shop:product_list' %}">All</a>
-                    </li>
-                    {% for c in categories %}
-                        <li {% if category and category.slug == c.slug %}class="selected"{% endif %}>
-                            <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
+        <!-- Sidebar filters -->
+<div class="col-12 col-md-4 col-lg-3 mb-5">
+    <h3 class="section-title">Filter by</h3>
+
+    <!-- Categories Dropdown -->
+    <div class="dropdown mb-3">
+        <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="categoriesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Categories: {% if category %}{{ category.name }}{% else %}All{% endif %}
+        </button>
+        <ul class="dropdown-menu w-100" aria-labelledby="categoriesDropdown">
+            <li>
+                <a class="dropdown-item {% if not category %}active bg-dark text-white{% endif %}" href="?{% if price_sort %}price_sort={{ price_sort }}&{% endif %}{% if price_range %}price_range={{ price_range }}&{% endif %}">
+                    All
+                </a>
+            </li>
+            {% for c in categories %}
+            <li>
+                <a class="dropdown-item {% if category and category.slug == c.slug %}active bg-dark text-white{% endif %}" href="?category={{ c.slug }}{% if price_sort %}&price_sort={{ price_sort }}{% endif %}{% if price_range %}&price_range={{ price_range }}{% endif %}">
+                    {{ c.name }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Price Sort Dropdown -->
+    <div class="dropdown mb-3">
+        <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="priceSortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Sort by Price: {% if request.GET.price_sort == 'asc' %}Lowest price{% elif request.GET.price_sort == 'desc' %}Highest price{% else %}Select{% endif %}
+        </button>
+        <ul class="dropdown-menu w-100" aria-labelledby="priceSortDropdown">
+            <li>
+                <a class="dropdown-item {% if request.GET.price_sort == 'asc' %}active bg-dark text-white{% endif %}" href="?price_sort=asc{% if category %}&category={{ category.slug }}{% endif %}{% if price_range %}&price_range={{ price_range }}{% endif %}">
+                    Lowest price
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item {% if request.GET.price_sort == 'desc' %}active bg-dark text-white{% endif %}" href="?price_sort=desc{% if category %}&category={{ category.slug }}{% endif %}{% if price_range %}&price_range={{ price_range }}{% endif %}">
+                    Highest price
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Price Range Dropdown -->
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="priceRangeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Price : {% if request.GET.price_range %}{{ request.GET.price_range }}{% else %}Select{% endif %}
+        </button>
+        <ul class="dropdown-menu w-100" aria-labelledby="priceRangeDropdown">
+            <li>
+                <a class="dropdown-item {% if request.GET.price_range == 'under-500' %}active bg-dark text-white{% endif %}" href="?price_range=under-500{% if category %}&category={{ category.slug }}{% endif %}{% if price_sort %}&price_sort={{ price_sort }}{% endif %}">
+                    Under $500
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item {% if request.GET.price_range == '500-1000' %}active bg-dark text-white{% endif %}" href="?price_range=500-1000{% if category %}&category={{ category.slug }}{% endif %}{% if price_sort %}&price_sort={{ price_sort }}{% endif %}">
+                    $500 - $1000
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item {% if request.GET.price_range == 'over-1000' %}active bg-dark text-white{% endif %}" href="?price_range=over-1000{% if category %}&category={{ category.slug }}{% endif %}{% if price_sort %}&price_sort={{ price_sort }}{% endif %}">
+                    Over $1000
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<!-- END Sidebar filters -->
+
+
+
             <!-- Product list -->
             <div class="col-12 col-md-8 col-lg-9 mb-5">
                   <div class="row">
@@ -28,7 +88,7 @@
                                 <h3 class="product-title">{{ product.name }}</h3>
                                 <strong class="product-price">${{ product.price }}</strong>
                                 <span class="icon-cross">
-                                    <img src="images/cross.svg" class="img-fluid">
+                                    <img src="{% static 'shop/images/cross.svg' %}" class="img-fluid">
                                 </span>
                             </a>
                         </div>
