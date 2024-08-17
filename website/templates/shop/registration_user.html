@@ -1,0 +1,72 @@
+{% extends 'shop/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="untree_co-section">
+    <div class="container">
+        <div class="block">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-8 pb-4">
+                    <div class="row mb-5">
+                        <!-- Пример с иконками, можно убрать -->
+                        <div class="col-lg-4">
+                            <div class="service no-shadow align-items-center link horizontal d-flex active" data-aos="fade-left" data-aos-delay="0">
+                                <div class="service-icon color-1 mb-4">
+                                    <!-- SVG icon here -->
+                                </div> <!-- /.icon -->
+                                <div class="service-contents">
+                                    <p>43 Raymouth Rd. Baltemoer, London 3910</p>
+                                </div> <!-- /.service-contents-->
+                            </div> <!-- /.service -->
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="service no-shadow align-items-center link horizontal d-flex active" data-aos="fade-left" data-aos-delay="0">
+                                <div class="service-icon color-1 mb-4">
+                                    <!-- SVG icon here -->
+                                </div> <!-- /.icon -->
+                                <div class="service-contents">
+                                    <p>info@yourdomain.com</p>
+                                </div> <!-- /.service-contents-->
+                            </div> <!-- /.service -->
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="service no-shadow align-items-center link horizontal d-flex active" data-aos="fade-left" data-aos-delay="0">
+                                <div class="service-icon color-1 mb-4">
+                                    <!-- SVG icon here -->
+                                </div> <!-- /.icon -->
+                                <div class="service-contents">
+                                    <p>+1 294 3925 3939</p>
+                                </div> <!-- /.service-contents-->
+                            </div> <!-- /.service -->
+                        </div>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="text-black" for="email">Email</label>
+                            {{ form.email|as_crispy_field }}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="text-black" for="password1">Password</label>
+                            {{ form.password1|as_crispy_field }}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="text-black" for="password2">Confirm Password</label>
+                            {{ form.password2|as_crispy_field }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary-hover-outline">Register</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

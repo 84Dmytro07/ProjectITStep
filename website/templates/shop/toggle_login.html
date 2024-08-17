@@ -1,0 +1,17 @@
+{% if user.is_authenticated %}
+<div class="navbar-form navbar-right">
+    <a href="{% url 'shop:profile' %}">Hello {{ user.username }}</a>
+    <a href="{% url 'shop:logout' %}" class="btn btn-danger">Logout</a>
+</div>
+{% else %}
+<form class="navbar-form navbar-right" method="POST" action="{% url 'shop:login' %}">
+    {% csrf_token %}
+    <div class="form-group">
+        <input type="text" placeholder="Username" name="username" class="form-control">
+    </div>
+    <div class="form-group">
+        <input type="password" placeholder="Password" name="password" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-success">Sign in</button>
+</form>
+{% endif %}
