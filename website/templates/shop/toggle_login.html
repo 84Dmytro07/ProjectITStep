@@ -1,7 +1,7 @@
 {% if user.is_authenticated %}
 <div class="navbar-form navbar-right">
-    <a href="{% url 'shop:profile' %}">Hello {{ user.username }}</a>
-    <a href="{% url 'shop:logout' %}" class="btn btn-danger">Logout</a>
+    <a class="dropdown-item" href="{% url 'shop:profile' %}">Your profile: {{ user.username }}</a>
+    <a class="dropdown-item" href="{% url 'shop:logout' %}">Logout</a>
 </div>
 {% else %}
 <form class="navbar-form navbar-right" method="POST" action="{% url 'shop:login' %}">

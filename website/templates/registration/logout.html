@@ -1,4 +1,6 @@
 {% extends 'shop/base.html' %}
 {% block content %}
-<a href="{% url 'shop:logout' %}" class="btn btn-danger">Logout</a>
+<li><a class="dropdown-item" href="{% url 'shop:logout' %}">Logout</a></li>
 {% endblock %}
+
+

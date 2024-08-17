@@ -51,23 +51,26 @@
                <li class="nav-item {% if request.resolver_match.url_name == 'shop:contact' %}active{% endif %}">
                <a class="nav-link" href="{% url 'shop:contact' %}">Contact us</a>
                </ul>
-              <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-               <li class="nav-item dropdown">
-               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-               <img src="{% static 'shop/images/user.svg'%}" alt="User">
-               </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {% if user.is_authenticated %}
-                <li><a class="dropdown-item" href="{% url 'shop:profile' %}">Profile</a></li>
-                <li><a class="dropdown-item" href="{% include 'shop/toggle_login.html' %}">Logout</a></li>
-                {% else %}
-               <li><a class="dropdown-item" href="{% url 'shop:login' %}">Login</a></li>
-                <li><a class="dropdown-item" href="{% url 'shop:register' %}">Register</a></li>
-                {% endif %}
-               </ul>
-               </li>
-          <li><a class="nav-link" href="{% url 'shop:cart' %}"><img src="{% static 'shop/images/cart.svg' %}"alt="Cart"></a></li>
+                           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5 d-flex align-items-center">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{% static 'shop/images/user.svg' %}" alt="User">
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% if user.is_authenticated %}
+                <li>
+                    {% include 'shop/toggle_login.html' %}
+                </li>
+            {% else %}
+                <li><a class="dropdown-item" href="{% url 'shop:login' %}">Login</a></li>
+                <li><a class="dropdown-item" href="{% url 'shop:register' %}">Registration</a></li>
+            {% endif %}
         </ul>
+    </li>
+    <li><a class="nav-link" href="{% url 'shop:cart' %}"><img src="{% static 'shop/images/cart.svg' %}" alt="Cart"></a></li>
+</ul>
+
+
       </div>
     </div>
   </nav>
