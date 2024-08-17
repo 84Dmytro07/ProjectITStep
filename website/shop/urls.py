@@ -15,7 +15,6 @@ urlpatterns = [
     path('terms/', views.terms, name='terms'),
     path('disclaimer/', views.disclaimer, name='disclaimer'),
     path('support/', views.support, name='support'),
-    path('cart/', views.cart, name='cart'),
     path('register/', views.register, name='register'),
     path('checkout/', views.checkout, name='checkout'),
     path('profile/', views.profile, name='profile'),

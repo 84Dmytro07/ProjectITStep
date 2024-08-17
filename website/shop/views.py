@@ -35,8 +35,6 @@ def support(request):
     return render(request, 'shop/support.html')
 
 
-def cart(request):
-    return render(request, 'shop/cart.html')
 
 def checkout(request):
     return render(request, 'shop/checkout.html')

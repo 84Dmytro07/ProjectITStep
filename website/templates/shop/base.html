@@ -67,7 +67,16 @@
             {% endif %}
         </ul>
     </li>
-    <li><a class="nav-link" href="{% url 'shop:cart' %}"><img src="{% static 'shop/images/cart.svg' %}" alt="Cart"></a></li>
+          <li class="nav-item">
+              <a class="nav-link position-relative" href="{% url 'orders:order_create' %}">
+                <img src="{% static 'shop/images/cart.svg' %}" alt="Cart">
+               {% if cart.get_total_quantity > 0 %}
+               <span class="badge badge-secondary position-absolute top-0 start-100 translate-middle bg-dark text-white rounded-circle">
+               {{ cart.get_total_quantity }}
+               </span>
+               {% endif %}
+              </a>
+          </li>
 </ul>
       </div>
     </div>
