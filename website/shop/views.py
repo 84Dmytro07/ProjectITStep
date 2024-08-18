@@ -3,16 +3,12 @@ from django.contrib.auth import login, authenticate, logout, update_session_auth
 from django.contrib.auth.forms import UserCreationForm,PasswordChangeForm
 from django.views import View
 from .forms import SignUpForm
-from django.contrib.auth.views import LoginView, LogoutView
 from .models import Category, Product
 from shopping_cart.forms import CartAddProductForm
 import random
-from django.urls import reverse
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm
-
 
 
 def about(request):
@@ -77,13 +73,22 @@ def update_profile(request):
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)
         profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
-        password_form = PasswordChangeForm(request.user, request.POST)
 
-        if user_form.is_valid() and profile_form.is_valid() and password_form.is_valid():
+        # Создаем экземпляр формы пароля только если данные для нее были переданы
+        password_form = PasswordChangeForm(request.user, request.POST) if request.POST.get('old_password') else None
+
+        # Проверка всех форм
+        forms_are_valid = user_form.is_valid() and profile_form.is_valid() and (
+                    password_form is None or password_form.is_valid())
+
+        if forms_are_valid:
             user_form.save()
             profile_form.save()
-            user = password_form.save()  # Сохраняем новый пароль
-            update_session_auth_hash(request, user)  # Обновляем сессию пользователя, чтобы не разлогинивать
+
+            if password_form:
+                user = password_form.save()  # Сохраняем новый пароль
+                update_session_auth_hash(request, user)  # Обновляем сессию пользователя, чтобы не разлогинивать
+
             messages.success(request, 'Ваш профиль был успешно обновлен!')
             return redirect('shop:profile')
     else:
@@ -94,7 +99,7 @@ def update_profile(request):
     context = {
         'user_form': user_form,
         'profile_form': profile_form,
-        'password_form': password_form
+        'password_form': password_form,
     }
 
     return render(request, 'shop/update_profile.html', context)

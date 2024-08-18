@@ -1,17 +1,23 @@
-from django.db import models
 from shop.models import Product
+from django.db import models
+from django.contrib.auth.models import User
+
 
 class Order(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
-    address = models.CharField(max_length=250)  # Обычно адреса длиннее 50 символов
+    address = models.CharField(max_length=250)
+    postal_zip = models.CharField(max_length=20, blank=True, null=True)
+    country = models.CharField(max_length=100, blank=True, null=True)
+    state_country = models.CharField(max_length=100, blank=True, null=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ('-created',)  # Добавил минус для сортировки по убыванию
+        ordering = ('-created',)
         verbose_name = 'Замовлення'
         verbose_name_plural = 'Замовлення'
 
