@@ -1,0 +1,101 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<div class="untree_co-section">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-md-12">
+        <h2 class="h3 mb-3 text-black">Edit Profile</h2>
+        <div class="p-3 p-lg-5 border bg-white">
+          <form method="POST">
+            {% csrf_token %}
+
+            <!-- Username and Email -->
+            <div class="form-group row">
+              <div class="col-md-6">
+                <label for="username" class="text-black">Username <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="username" name="username" value="{{ user_form.username.value }}">
+              </div>
+              <div class="col-md-6">
+                <label for="email" class="text-black">Email <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ user_form.email.value }}">
+              </div>
+            </div>
+
+            <!-- First Name and Last Name -->
+            <div class="form-group row">
+              <div class="col-md-6">
+                <label for="first_name" class="text-black">First Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="first_name" name="first_name" value="{{ user_form.first_name.value }}">
+              </div>
+              <div class="col-md-6">
+                <label for="last_name" class="text-black">Last Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="last_name" name="last_name" value="{{ user_form.last_name.value }}">
+              </div>
+            </div>
+
+            <!-- Country and State / Country -->
+            <div class="form-group row">
+              <div class="col-md-6">
+                <label for="country" class="text-black">Country <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="country" name="country" value="{{ profile_form.country.value }}">
+              </div>
+              <div class="col-md-6">
+                <label for="state_country" class="text-black">State / Country <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="state_country" name="state_country" value="{{ profile_form.state_country.value }}">
+              </div>
+            </div>
+
+            <!-- Address and Postal / Zip -->
+            <div class="form-group row">
+              <div class="col-md-6">
+                <label for="address" class="text-black">Address <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="address" name="address" value="{{ profile_form.address.value }}">
+              </div>
+              <div class="col-md-6">
+                <label for="postal_zip" class="text-black">Postal / Zip <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="postal_zip" name="postal_zip" value="{{ profile_form.postal_zip.value }}">
+              </div>
+            </div>
+
+            <!-- Phone -->
+            <div class="form-group row">
+              <div class="col-md-6">
+                <label for="phone" class="text-black">Phone <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="phone" name="phone" value="{{ profile_form.phone.value }}">
+              </div>
+            </div>
+
+            <!-- Password Change Section -->
+            <div class="form-group row">
+              <div class="col-md-6">
+                <label for="new_password1" class="text-black">New Password <span class="text-danger">*</span></label>
+                <input type="password" class="form-control" id="new_password1" name="new_password1" placeholder="New Password">
+              </div>
+              <div class="col-md-6">
+                <label for="new_password2" class="text-black">Confirm New Password <span class="text-danger">*</span></label>
+                <input type="password" class="form-control" id="new_password2" name="new_password2" placeholder="Confirm New Password">
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-6">
+                <label for="old_password" class="text-black">Current Password <span class="text-danger">*</span></label>
+                <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Current Password">
+              </div>
+            </div>
+
+            <!-- Save Changes and Cancel Buttons -->
+            <div class="form-group row mt-4">
+              <div class="col-md-6">
+                <button class="btn btn-black btn-lg py-3 btn-block" type="submit">Save Changes</button>
+              </div>
+              <div class="col-md-6">
+                <a href="{% url 'shop:profile' %}" class="btn btn-black btn-lg py-3 btn-block">Cancel</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

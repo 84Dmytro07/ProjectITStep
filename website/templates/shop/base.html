@@ -51,11 +51,11 @@
                <li class="nav-item {% if request.resolver_match.url_name == 'shop:contact' %}active{% endif %}">
                <a class="nav-link" href="{% url 'shop:contact' %}">Contact us</a>
                </ul>
-                           <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5 d-flex align-items-center">
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5 d-flex align-items-center">
+            <li class="nav-item dropdown">
+             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="{% static 'shop/images/user.svg' %}" alt="User">
-        </a>
+           </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             {% if user.is_authenticated %}
                 <li>

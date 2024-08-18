@@ -3,16 +3,13 @@ from .models import OrderItem
 from .forms import OrderCreateForm
 from shopping_cart.cart import Cart
 
-
 def order_create(request):
     cart = Cart(request)
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
         if form.is_valid():
             order = form.save()
-            print(f"Order created: {order}")
             for item in cart:
-                print(f"Adding item to order: {item}")
                 OrderItem.objects.create(
                     order=order,
                     product=item['product'],

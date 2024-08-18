@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
-
+from django.db import models
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     name = models.CharField(max_length=200, db_index=True)
@@ -15,8 +16,7 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('shop:product_list_by_category',
-                       args=[self.slug])
+        return f"{reverse('shop:product_list')}?category={self.slug}"
 
 
 class Product(models.Model):
@@ -41,3 +41,16 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('shop:product_detail',
                        args=[self.id, self.slug])
+
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    country = models.CharField(max_length=100, null=True, blank=True)
+    address = models.CharField(max_length=255, null=True, blank=True)
+    state_country = models.CharField(max_length=100, null=True, blank=True)
+    postal_zip = models.CharField(max_length=20, null=True, blank=True)
+    phone = models.CharField(max_length=20, null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.user.username} Profile'

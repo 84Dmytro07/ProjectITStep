@@ -1,31 +1,88 @@
-{% extends "shop/base.html" %}
+{% extends 'shop/base.html' %}
+{% load static %}
 {% block content %}
-<h3>Your Cart</h3>
-{% if cart %}
-    <form action="{% url 'cart:cart_update' %}" method="post">
-        {% csrf_token %}
-        {% for item in cart %}
-        {% with product=item.product %}
-        <div>
-            <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100" height="100">
-            <p>Name: {{ product.name }}</p>
-            <p>Count:
-                <input type="number" name="quantity_{{ product.id }}" value="{{ item.quantity }}" min="1">
-            </p>
-            <p>Price: ${{ item.price }}</p>
-            <a href="{% url 'cart:cart_remove' product.id %}">Remove</a>
+<div class="untree_co-section before-footer-section">
+    <div class="container">
+        <div class="row mb-5">
+            <form class="col-md-12" method="post" action="{% url 'shopping_cart:cart_update' %}">
+                {% csrf_token %}
+                <div class="site-blocks-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="product-thumbnail">Image</th>
+                                <th class="product-name">Product</th>
+                                <th class="product-price">Price</th>
+                                <th class="product-quantity">Quantity</th>
+                                <th class="product-total">Total</th>
+                                <th class="product-remove">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart_items %}
+                            <tr>
+                                <td class="product-thumbnail">
+                                    <img src="{{ item.product.image.url }}" alt="Image" class="img-fluid" width="100" height="100">
+                                </td>
+                                <td class="product-name">
+                                    <h2 class="h5 text-black">{{ item.product.name }}</h2>
+                                </td>
+                                <td>${{ item.product.price }}</td>
+                                <td>
+                                    <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
+                                        <div class="input-group-prepend">
+                                            <button class="btn btn-outline-black decrease" type="submit" name="quantity_{{ item.product.id }}" value="{{ item.quantity|add:'-1' }}">&minus;</button>
+                                        </div>
+                                        <input type="text" class="form-control text-center quantity-amount" name="quantity_{{ item.product.id }}" value="{{ item.quantity }}" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-black increase" type="submit" name="quantity_{{ item.product.id }}" value="{{ item.quantity|add:'1' }}">&plus;</button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>${{ item.total_price|floatformat:2 }}</td>
+                                <td>
+                                    <a href="{% url 'shopping_cart:cart_remove' item.product.id %}" class="btn btn-black btn-sm">X</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </form>
         </div>
-        {% endwith %}
-        {% endfor %}
-        <button type="submit">Update Quantities</button>
-    </form>
-    <h3>Total price: ${{ cart.get_total_price }}</h3>
-    <a href="{% url 'order:order_create' %}">
-        <button type="button">Checkout</button>
-    </a>
-{% else %}
-    <p>Your cart is empty.</p>
-{% endif %}
+
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Остальной код -->
+            </div>
+            <div class="col-md-6 pl-5">
+                <div class="row justify-content-end">
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-12 text-right border-bottom mb-5">
+                                <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                            </div>
+                        </div>
+
+                        <div class="row mb-5">
+                            <div class="col-md-6">
+                                <span class="text-black">Total</span>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <strong class="text-black">${{ cart.get_total_price }}</strong>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="{% url 'orders:order_create' %}" class="btn btn-black btn-lg py-3 btn-block">Checkout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
-
-
