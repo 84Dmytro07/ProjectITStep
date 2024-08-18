@@ -9,7 +9,7 @@ import random
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm
-
+from orders.models import Order
 
 def about(request):
     return render(request, 'shop/about.html')
@@ -47,12 +47,17 @@ def checkout(request):
     return render(request, 'shop/checkout.html')
 
 
+@login_required
 def profile(request):
+    user_profile = request.user.profile
+    orders = Order.objects.filter(user=request.user)  
+
     context = {
         'user': request.user,
+        'profile': user_profile,
+        'orders': orders
     }
     return render(request, 'shop/profile.html', context)
-
 
 from .models import Profile
 

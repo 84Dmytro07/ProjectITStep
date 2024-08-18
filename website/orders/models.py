@@ -4,22 +4,23 @@ from django.contrib.auth.models import User
 
 
 class Order(models.Model):
+    user = models.ForeignKey(User, related_name='orders', on_delete=models.CASCADE, null=True, blank=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
     address = models.CharField(max_length=250)
-    postal_zip = models.CharField(max_length=20, blank=True, null=True)
-    country = models.CharField(max_length=100, blank=True, null=True)
-    state_country = models.CharField(max_length=100, blank=True, null=True)
-    phone = models.CharField(max_length=20, blank=True, null=True)
+    country = models.CharField(max_length=100, null=True, blank=True)
+    state_country = models.CharField(max_length=100, null=True, blank=True)
+    postal_zip = models.CharField(max_length=20, null=True, blank=True)
+    phone = models.CharField(max_length=20, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('-created',)
-        verbose_name = 'Замовлення'
-        verbose_name_plural = 'Замовлення'
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
 
     def __str__(self):
         return f'Order {self.id}'
