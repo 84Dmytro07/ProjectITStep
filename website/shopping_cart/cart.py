@@ -52,4 +52,5 @@ class Cart:
         del self.session[settings.CART_SESSION_ID]
         self.session.modified = True
 
-
+    def get_total_quantity(self):
+        return self.__len__()

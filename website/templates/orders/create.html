@@ -63,7 +63,7 @@
                                 <th class="product-name">Product</th>
                                 <th class="product-price">Price</th>
                                 <th class="product-quantity">Quantity</th>
-                                <th class="product-total">Total</th>
+                                <th class="product-quantity">Total</th>
                                 <th class="product-remove">Remove</th>
                             </tr>
                         </thead>
@@ -78,7 +78,7 @@
                                 </td>
                                 <td>${{ item.product.price }}</td>
                                 <td>{{ item.quantity }}</td>
-                                <td>${{ item.price }}</td>
+                                <td>${{ item.total_price }}</td>
                                 <td>
                                     <a href="{% url 'shopping_cart:cart_remove' item.product.id %}" class="btn btn-black btn-sm">X</a>
                                 </td>
@@ -90,6 +90,9 @@
 
                 <!-- Итого и кнопка для размещения заказа -->
                 <div class="row">
+                    <div class="col-md-6">
+                <!-- Остальной код -->
+                    </div>
                     <div class="col-md-6 pl-5">
                         <div class="row justify-content-end">
                             <div class="col-md-7">
@@ -98,14 +101,7 @@
                                         <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <span class="text-black">Subtotal</span>
-                                    </div>
-                                    <div class="col-md-6 text-right">
-                                        <strong class="text-black">${{ cart.get_total_price }}</strong>
-                                    </div>
-                                </div>
+
                                 <div class="row mb-5">
                                     <div class="col-md-6">
                                         <span class="text-black">Total</span>
