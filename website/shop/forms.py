@@ -4,6 +4,7 @@ from django import forms
 from django.contrib.auth.models import User
 from .models import Profile
 from .models import Subscriber
+from .models import ContactMessage
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
@@ -60,3 +61,21 @@ class SubscriptionForm(forms.ModelForm):
         'class': 'form-control',
         'placeholder': 'Enter your email',
     }))
+
+
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = ContactMessage
+        fields = ['first_name', 'last_name', 'email', 'message']
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(ContactForm, self).__init__(*args, **kwargs)
+        if user and user.is_authenticated:
+            self.fields['first_name'].initial = user.first_name
+            self.fields['last_name'].initial = user.last_name
+            self.fields['email'].initial = user.email
+            self.fields['first_name'].widget.attrs['readonly'] = True
+            self.fields['last_name'].widget.attrs['readonly'] = True
+            self.fields['email'].widget.attrs['readonly'] = True

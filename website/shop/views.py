@@ -12,14 +12,15 @@ from .forms import UserUpdateForm, ProfileUpdateForm
 from orders.models import Order
 from django.contrib import messages
 from .forms import SubscriptionForm
+from django.contrib import messages
+from .forms import ContactForm
 
 def about(request):
     return render(request, 'shop/about.html')
 
 
-def contact(request):
-    return render(request, 'shop/contact.html')
-
+def contact_success(request):
+    return render(request, 'shop/contact_success.html')
 
 def blog(request):
     return render(request, 'shop/blog.html')
@@ -133,6 +134,22 @@ def subscribe(request):
     return render(request, 'shop/subscribe.html', {'form': form})
 
 
+
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Thank you for your message!')
+            return redirect('shop:contact_success')
+    else:
+        form = ContactForm(user=request.user)
+
+    return render(request, 'shop/contact.html', {'form': form})
+
+
+
+
 #### Магазин
 
 def product_list(request):
@@ -188,3 +205,5 @@ def index(request):
         'random_products': random_products,
     }
     return render(request, 'shop/index.html', context)
+
+

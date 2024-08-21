@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
-from django.db import models
 from django.contrib.auth.models import User
+
 
 class Category(models.Model):
     name = models.CharField(max_length=200, db_index=True)
@@ -62,3 +62,16 @@ class Subscriber(models.Model):
 
     def __str__(self):
         return self.email
+
+
+
+class ContactMessage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField()
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message from {self.first_name} {self.last_name}"

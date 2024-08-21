@@ -42,8 +42,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'orders',
     'shopping_cart',
-
-]
+     ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

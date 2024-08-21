@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, Subscriber
+from .models import Category, Product, Subscriber, ContactMessage
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -20,3 +20,9 @@ admin.site.register(Product, ProductAdmin)
 class SubscriberAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'subscribed_at')
     search_fields = ('email',)
+
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'last_name', 'email', 'submitted_at')
+    search_fields = ('first_name', 'last_name', 'email')
