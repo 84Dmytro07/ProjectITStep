@@ -71,6 +71,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'shopping_cart.context_processors.cart',
+                'shop.context_processors.subscription_form',
 
             ],
         },

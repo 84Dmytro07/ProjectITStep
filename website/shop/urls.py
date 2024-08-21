@@ -17,6 +17,7 @@ urlpatterns = [
     path('support/', views.support, name='support'),
     path('register/', views.register, name='register'),
     path('checkout/', views.checkout, name='checkout'),
+    path('subscribe/', views.subscribe, name='subscribe'),
     path('profile/', views.profile, name='profile'),
     path('update_profile/', views.update_profile, name='update_profile'),
     path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),

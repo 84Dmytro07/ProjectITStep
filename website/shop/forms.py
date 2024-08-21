@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
 from .models import Profile
+from .models import Subscriber
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
@@ -43,3 +44,19 @@ class ProfileUpdateForm(forms.ModelForm):
             'postal_zip': forms.TextInput(attrs={'required': False}),
             'phone': forms.TextInput(attrs={'required': False}),
         }
+
+
+
+class SubscriptionForm(forms.ModelForm):
+    class Meta:
+        model = Subscriber
+        fields = ['name', 'email']
+
+    name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Enter your name',
+    }))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Enter your email',
+    }))

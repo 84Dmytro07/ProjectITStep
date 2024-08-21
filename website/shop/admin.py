@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product
+from .models import Category, Product, Subscriber
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -14,3 +14,9 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ['price', 'stock', 'available']
     prepopulated_fields = {'slug': ('name',)}
 admin.site.register(Product, ProductAdmin)
+
+
+@admin.register(Subscriber)
+class SubscriberAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'subscribed_at')
+    search_fields = ('email',)

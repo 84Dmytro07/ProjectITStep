@@ -10,6 +10,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm
 from orders.models import Order
+from django.contrib import messages
+from .forms import SubscriptionForm
 
 def about(request):
     return render(request, 'shop/about.html')
@@ -79,7 +81,7 @@ def update_profile(request):
         user_form = UserUpdateForm(request.POST, instance=request.user)
         profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
 
-        # Создаем экземпляр формы пароля только если данные для нее были переданы
+        #  экземпляр формы пароля только если данные для нее были переданы
         password_form = PasswordChangeForm(request.user, request.POST) if request.POST.get('old_password') else None
 
         # Проверка всех форм
@@ -116,6 +118,19 @@ class MyLogoutView(View):
         logout(request)
         return redirect('shop:index')
 
+
+
+def subscribe(request):
+    if request.method == 'POST':
+        form = SubscriptionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Thank you for subscribing to our newsletter!')
+            return  redirect('shop:subscribe')
+    else:
+        form = SubscriptionForm()
+
+    return render(request, 'shop/subscribe.html', {'form': form})
 
 
 #### Магазин
