@@ -2,18 +2,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.contrib.auth.forms import UserCreationForm,PasswordChangeForm
 from django.views import View
-from .forms import SignUpForm
-from .models import Category, Product
+from .forms import SignUpForm, BlogPostForm, BlogImageForm, CommentForm, ContactForm, SubscriptionForm, UserUpdateForm, ProfileUpdateForm
+from .models import Category, Product, BlogPost, BlogImage, Comment
 from shopping_cart.forms import CartAddProductForm
 import random
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserUpdateForm, ProfileUpdateForm
 from orders.models import Order
 from django.contrib import messages
-from .forms import SubscriptionForm
-from django.contrib import messages
-from .forms import ContactForm
+
+
+
 
 def about(request):
     return render(request, 'shop/about.html')
@@ -23,11 +22,11 @@ def contact_success(request):
     return render(request, 'shop/contact_success.html')
 
 def blog(request):
-    return render(request, 'shop/blog.html')
+    blog_posts = BlogPost.objects.all().order_by('-created_at')
+    return render(request, 'shop/blog.html', {'blog_posts': blog_posts})
 
 
-def blog_detail(request, blog_id):
-    return render(request, 'shop/blog_detail.html', {'blog_id': blog_id})
+
 
 
 def services(request):
@@ -207,3 +206,47 @@ def index(request):
     return render(request, 'shop/index.html', context)
 
 
+
+
+
+@login_required
+def blog_create(request):
+    if request.method == 'POST':
+        post_form = BlogPostForm(request.POST)
+        image_forms = [BlogImageForm(request.POST, request.FILES, prefix=str(x)) for x in range(0, 3)]
+        if post_form.is_valid() and all([img_form.is_valid() for img_form in image_forms]):
+            blog_post = post_form.save(commit=False)
+            blog_post.author = request.user
+            blog_post.save()
+            for img_form in image_forms:
+                if img_form.cleaned_data:
+                    image = img_form.save(commit=False)
+                    image.blog_post = blog_post
+                    image.save()
+            return redirect('shop:blog')
+    else:
+        post_form = BlogPostForm()
+        image_forms = [BlogImageForm(prefix=str(x)) for x in range(0, 3)]
+
+    return render(request, 'shop/blog_create.html', {'post_form': post_form, 'image_forms': image_forms})
+
+
+def blog_detail(request, blog_id):
+    blog_post = get_object_or_404(BlogPost, id=blog_id)
+    comments = blog_post.comments.all()
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.blog_post = blog_post
+            comment.author = request.user
+            comment.save()
+            return redirect('shop:blog_detail', blog_id=blog_post.id)
+    else:
+        comment_form = CommentForm()
+
+    return render(request, 'shop/blog_detail.html', {
+        'blog_post': blog_post,
+        'comments': comments,
+        'comment_form': comment_form
+    })

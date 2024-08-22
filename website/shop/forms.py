@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .models import Profile
 from .models import Subscriber
 from .models import ContactMessage
+from .models import BlogPost, BlogImage, Comment
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
@@ -79,3 +80,20 @@ class ContactForm(forms.ModelForm):
             self.fields['first_name'].widget.attrs['readonly'] = True
             self.fields['last_name'].widget.attrs['readonly'] = True
             self.fields['email'].widget.attrs['readonly'] = True
+
+
+
+class BlogPostForm(forms.ModelForm):
+    class Meta:
+        model = BlogPost
+        fields = ['title', 'content']
+
+class BlogImageForm(forms.ModelForm):
+    class Meta:
+        model = BlogImage
+        fields = ['image']
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
