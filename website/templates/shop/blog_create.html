@@ -1,0 +1,45 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% load form_tags %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="untree_co-section">
+    <div class="container">
+        <div class="block">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-8 pb-4">
+                    <h2 class="mb-4">Create a New Blog Post</h2>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="form-group">
+    <label class="text-black" for="id_title">Title</label>
+    {{ post_form.title|add_class:"form-control" }}
+</div>
+
+<div class="form-group mb-5">
+    <label class="text-black" for="id_category">Category</label>
+    {{ post_form.category|add_class:"form-control" }}
+</div>
+
+<div class="form-group mb-5">
+    <label class="text-black" for="id_content">Content</label>
+    {{ post_form.content|add_class:"form-control" }}
+</div>
+
+                        <div class="form-group mb-5">
+                            <label class="text-black" for="id_image">Upload Images</label>
+                            {% for form in image_forms %}
+                                {{ form.image|add_class:"form-control mb-3" }}
+                            {% endfor %}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary-hover-outline">Create Post</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

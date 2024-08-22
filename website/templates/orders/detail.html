@@ -1,0 +1,26 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<div class="untree_co-section">
+    <div class="container">
+        <h2 class="h3 mb-3 text-black">Order Details</h2>
+        <div class="p-3 p-lg-5 border bg-white">
+            <h4 class="text-black">Order ID: {{ order.id }}</h4>
+            <p><strong>Date:</strong> {{ order.created|date:"F d, Y" }}</p>
+            <p><strong>Total Cost:</strong> ${{ order.get_total_cost }}</p>
+            <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+
+            <h5 class="mt-4">Items:</h5>
+            <ul>
+                {% for item in order.items.all %}
+                    <li>
+                        {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" width="35" height="35" style="object-fit: cover;">
+                        {% endif %}
+                        <a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a> ({{ item.quantity }} @ ${{ item.price }} each)
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

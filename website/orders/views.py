@@ -1,8 +1,7 @@
-from .models import OrderItem
-from django.shortcuts import render
+from .models import OrderItem, Order
+from django.shortcuts import render, get_object_or_404
 from .forms import OrderCreateForm
 from shopping_cart.cart import Cart
-
 
 def order_create(request):
     cart = Cart(request)
@@ -33,3 +32,10 @@ def order_create(request):
         form = OrderCreateForm(initial=initial_data)
 
     return render(request, 'orders/create.html', {'cart': cart, 'form': form})
+
+
+
+
+def order_detail(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    return render(request, 'orders/detail.html', {'order': order})

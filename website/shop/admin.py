@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, Subscriber, ContactMessage
+from .models import Category, Product, Subscriber, ContactMessage, Comment, BlogCategory, BlogPost, BlogImage
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -26,3 +26,27 @@ class SubscriberAdmin(admin.ModelAdmin):
 class ContactMessageAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'email', 'submitted_at')
     search_fields = ('first_name', 'last_name', 'email')
+
+
+
+
+class BlogImageInline(admin.TabularInline):
+    model = BlogImage
+    extra = 1
+
+
+class BlogPostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'created_at')
+    search_fields = ('title', 'author__username')
+    inlines = [BlogImageInline]
+
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('author', 'blog_post', 'created_at')
+    search_fields = ('author__username', 'blog_post__title')
+
+
+admin.site.register(BlogPost, BlogPostAdmin)
+admin.site.register(Comment, CommentAdmin)
+admin.site.register(BlogCategory)
+admin.site.register(BlogImage)

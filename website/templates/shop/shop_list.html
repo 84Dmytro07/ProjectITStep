@@ -1,6 +1,18 @@
 {% extends 'shop/base.html' %}
 {% load static %}
+
 {% block content %}
+<style>
+    /* Стиль для изображения товара */
+    .product-thumbnail {
+        max-width: 156px;
+        max-height: 156px;
+        width: auto;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+</style>
 <div class="untree_co-section product-section before-footer-section">
     <div class="container">
         <div class="row">
@@ -54,6 +66,12 @@
                         Price : {% if request.GET.price_range == 'under-500' %}Under $500{% elif request.GET.price_range == '500-1000' %}$500 - $1000{% elif request.GET.price_range == 'over-1000' %}Over $1000{% else %}Select{% endif %}
                     </button>
                     <ul class="dropdown-menu w-100" aria-labelledby="priceRangeDropdown">
+                        <li>
+                            <a class="dropdown-item {% if not request.GET.price_range %}active bg-dark text-white{% endif %}" href="?{% if category %}category={{ category.slug }}{% endif %}{% if price_sort %}&price_sort={{ price_sort }}{% endif %}">
+                                All
+                            </a>
+                        </li>
+                        <li>
                         <li>
                             <a class="dropdown-item {% if request.GET.price_range == 'under-500' %}active bg-dark text-white{% endif %}" href="?price_range=under-500{% if category %}&category={{ category.slug }}{% endif %}{% if price_sort %}&price_sort={{ price_sort }}{% endif %}">
                                 Under $500

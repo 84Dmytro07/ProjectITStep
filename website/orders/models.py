@@ -39,3 +39,5 @@ class OrderItem(models.Model):  # Изменил OrderItems на OrderItem
 
     def get_cost(self):
         return self.price * self.quantity
+
+

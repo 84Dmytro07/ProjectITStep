@@ -41,10 +41,14 @@
                <a class="nav-link" href="{% url 'shop:about' %}">About us</a>
                </li>
                {% if not user.is_authenticated %}
-               <li class="nav-item {% if request.resolver_match.url_name == 'shop:register' %}active{% endif %}">
-               <a class="nav-link" href="{% url 'shop:register' %}">Registration</a>
-               </li>
-               {% endif %}
+    <li class="nav-item {% if request.resolver_match.url_name == 'shop:register' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'shop:register' %}">Registration</a>
+    </li>
+{% else %}
+    <li class="nav-item {% if request.resolver_match.url_name == 'shop:blog_create' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'shop:blog_create' %}">Create post</a>
+    </li>
+{% endif %}
                <li class="nav-item {% if request.resolver_match.url_name == 'shop:blog' %}active{% endif %}">
                <a class="nav-link" href="{% url 'shop:blog' %}">Blog</a>
                </li>

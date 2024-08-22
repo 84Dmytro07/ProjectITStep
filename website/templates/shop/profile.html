@@ -5,109 +5,146 @@
   <div class="container">
     <div class="row mb-5">
       <div class="col-md-12">
-        <h2 class="h3 mb-3 text-black">User Profile</h2>
+        <h2 class="h3 mb-3 text-black">My Profile</h2>
         <div class="p-3 p-lg-5 border bg-white">
-          <!-- Username -->
-          <div class="form-group row">
-            <div class="col-md-12">
-              <label for="username" class="text-black">Username</label>
-              <p>{{ user.username }}</p>
-            </div>
-          </div>
+          <!-- Вкладки (Tabs) -->
+          <ul class="nav nav-tabs" id="profileTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="info-tab" data-bs-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">Info</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="orders-tab" data-bs-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="false">My Orders</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="blogs-tab" data-bs-toggle="tab" href="#blogs" role="tab" aria-controls="blogs" aria-selected="false">My Blog</a>
+            </li>
+          </ul>
 
-          <!-- Email -->
-          <div class="form-group row">
-            <div class="col-md-12">
-              <label for="email" class="text-black">Email</label>
-              <p>{{ user.email }}</p>
-            </div>
-          </div>
+          <div class="tab-content" id="profileTabContent">
+            <!-- Вкладка Info -->
+            <h3 class="h4 text-black mt-5">Info</h3>
+            <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+              <!-- Username -->
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <label for="username" class="text-black">Username</label>
+                  <p>{{ user.username }}</p>
+                </div>
+              </div>
 
-          <!-- First Name -->
-          <div class="form-group row">
-            <div class="col-md-6">
-              <label for="first_name" class="text-black">First Name</label>
-              <p>{{ user.first_name }}</p>
+              <!-- Email -->
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <label for="email" class="text-black">Email</label>
+                  <p>{{ user.email }}</p>
+                </div>
+              </div>
+
+              <!-- First Name -->
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="first_name" class="text-black">First Name</label>
+                  <p>{{ user.first_name }}</p>
+                </div>
+
+                <!-- Last Name -->
+                <div class="col-md-6">
+                  <label for="last_name" class="text-black">Last Name</label>
+                  <p>{{ user.last_name }}</p>
+                </div>
+              </div>
+
+              <!-- Country -->
+              <div class="form-group">
+                <label for="country" class="text-black">Country</label>
+                <p>{{ user.profile.country }}</p>
+              </div>
+
+              <!-- Address -->
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <label for="address" class="text-black">Address</label>
+                  <p>{{ user.profile.address }}</p>
+                </div>
+              </div>
+
+              <!-- State / Country and Postal / Zip -->
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="state_country" class="text-black">State / Country</label>
+                  <p>{{ user.profile.state_country }}</p>
+                </div>
+                <div class="col-md-6">
+                  <label for="postal_zip" class="text-black">Postal / Zip</label>
+                  <p>{{ user.profile.postal_zip }}</p>
+                </div>
+              </div>
+
+              <!-- Phone -->
+              <div class="form-group row mb-4">
+                <div class="col-md-6">
+                  <label for="phone" class="text-black">Phone</label>
+                  <p>{{ user.profile.phone }}</p>
+                </div>
+              </div>
+
+              <!-- Change Profile Button -->
+              <div class="form-group">
+                <a href="{% url 'shop:update_profile' %}" class="btn btn-black btn-lg py-3 btn-block">Change</a>
+              </div>
             </div>
 
-            <!-- Last Name -->
-            <div class="col-md-6">
-              <label for="last_name" class="text-black">Last Name</label>
-              <p>{{ user.last_name }}</p>
+            <!-- Вкладка My Orders -->
+            <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+              <h3 class="h4 text-black mt-5">My Orders</h3>
+              {% if orders %}
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Total Cost</th>
+                        <th>Status</th>
+                        <th>Details</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for order in orders %}
+                      <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.created }}</td>
+                        <td>${{ order.get_total_cost }}</td>
+                        <td>{{ order.get_status_display }}</td>
+                        <td><a href="{% url 'orders:order_detail' order.id %}">View Details</a></td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              {% else %}
+                <p>No orders found.</p>
+              {% endif %}
             </div>
-          </div>
 
-          <!-- Country -->
-          <div class="form-group">
-            <label for="country" class="text-black">Country</label>
-            <p>{{ user.profile.country }}</p>
-          </div>
-
-          <!-- Address -->
-          <div class="form-group row">
-            <div class="col-md-12">
-              <label for="address" class="text-black">Address</label>
-              <p>{{ user.profile.address }}</p>
-            </div>
-          </div>
-
-          <!-- State / Country and Postal / Zip -->
-          <div class="form-group row">
-            <div class="col-md-6">
-              <label for="state_country" class="text-black">State / Country</label>
-              <p>{{ user.profile.state_country }}</p>
-            </div>
-            <div class="col-md-6">
-              <label for="postal_zip" class="text-black">Postal / Zip</label>
-              <p>{{ user.profile.postal_zip }}</p>
-            </div>
-          </div>
-
-          <!-- Phone -->
-          <div class="form-group row mb-4">
-            <div class="col-md-6">
-              <label for="phone" class="text-black">Phone</label>
-              <p>{{ user.profile.phone }}</p>
-            </div>
-          </div>
-
-          <!-- Change Profile Button -->
-          <div class="form-group">
-            <a href="{% url 'shop:update_profile' %}" class="btn btn-black btn-lg py-3 btn-block">Change</a>
-          </div>
- <h3 class="h4 text-black mt-5">My Orders</h3>
-          {% if orders %}
-            <div class="table-responsive">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Order ID</th>
-                    <th>Date</th>
-                    <th>Total Cost</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for order in orders %}
-                  <tr>
-                    <td>{{ order.id }}</td>
-                    <td>{{ order.created }}</td>
-                    <td>${{ order.get_total_cost }}</td>
-                    <td>{{ order.get_status_display }}</td>
-                  </tr>
+            <!-- Вкладка My Blog -->
+            <div class="tab-pane fade" id="blogs" role="tabpanel" aria-labelledby="blogs-tab">
+              <h3 class="h4 text-black mt-5">My Blog</h3>
+              {% if user.blogpost_set.all %}
+                <ul>
+                  {% for post in user.blogpost_set.all %}
+                  <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a> - {{ post.created_at|date:"F d, Y" }}</li>
                   {% endfor %}
-                </tbody>
-              </table>
+                </ul>
+              {% else %}
+                <p>No blog posts found.</p>
+              {% endif %}
             </div>
-          {% else %}
-            <p>No orders found.</p>
-          {% endif %}
+          </div>
+
         </div>
       </div>
     </div>
   </div>
 </div>
-
-
 {% endblock %}
-
