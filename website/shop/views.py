@@ -8,9 +8,9 @@ from shopping_cart.forms import CartAddProductForm
 import random
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from orders.models import Order
+from orders.models import Order, OrderItem
 from django.contrib import messages
-
+from django.db.models import Count
 
 
 
@@ -218,11 +218,16 @@ def product_detail(request, id, slug):
 def index(request):
     products = list(Product.objects.filter(available=True))
     random_products = random.sample(products, 3) if len(products) >= 3 else products
-
+    recent_blog_posts = BlogPost.objects.order_by('-created_at')[:3]
+    popular_products = Product.objects.annotate(order_count=Count('order_items')).order_by('-order_count')[:3]
     context = {
         'random_products': random_products,
+        'recent_blog_posts': recent_blog_posts,
+        'popular_products': popular_products,
     }
     return render(request, 'shop/index.html', context)
+
+
 
 
 
