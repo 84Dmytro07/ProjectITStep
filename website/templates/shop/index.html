@@ -121,7 +121,7 @@
             <li>Durable materials that ensure longevity</li>
             <li>Exceptional value without compromising on quality</li>
           </ul>
-          <p><a href="#" class="btn">Explore</a></p>
+          <p><a href="{% url 'shop:product_list' %}" class="btn">Shop</a></p>
         </div>
       </div>
     </div>
@@ -151,86 +151,7 @@
 </div>
 <!-- End Popular Product -->
 
-  <!-- Start Testimonial Slider -->
-  <div class="testimonial-section">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-7 mx-auto text-center">
-          <h2 class="section-title">What Our Customers Are Saying</h2>
-        </div>
-      </div>
-      <div class="row justify-content-center">
-        <div class="col-lg-12">
-          <div class="testimonial-slider-wrap text-center">
-            <div id="testimonial-nav">
-              <span class="prev" data-controls="prev"><span class="fa fa-chevron-left"></span></span>
-              <span class="next" data-controls="next"><span class="fa fa-chevron-right"></span></span>
-            </div>
-            <div class="testimonial-slider">
-              <div class="item">
-                <div class="row justify-content-center">
-                  <div class="col-lg-8 mx-auto">
-                    <div class="testimonial-block text-center">
-                      <blockquote class="mb-5">
-                        <p>&ldquo;The quality of the products is outstanding, and the customer service is top-notch. I couldn't be happier with my purchases!&rdquo;</p>
-                      </blockquote>
-                      <div class="author-info">
-                        <div class="author-pic">
-                          <img src="{% static 'shop/images/person-1.png' %}" alt="Maria Jones" class="img-fluid">
-                        </div>
-                        <h3 class="font-weight-bold">Maria Jones</h3>
-                        <span class="position d-block mb-3">CEO, Co-Founder, XYZ Inc.</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- END item -->
-              <div class="item">
-                <div class="row justify-content-center">
-                  <div class="col-lg-8 mx-auto">
-                    <div class="testimonial-block text-center">
-                      <blockquote class="mb-5">
-                        <p>&ldquo;I was impressed with the fast delivery and the quality of the products. The shopping experience was seamless.&rdquo;</p>
-                      </blockquote>
-                      <div class="author-info">
-                        <div class="author-pic">
-                          <img src="{% static 'shop/images/person-1.png' %}" alt="John Doe" class="img-fluid">
-                        </div>
-                        <h3 class="font-weight-bold">John Doe</h3>
-                        <span class="position d-block mb-3">Creative Director, ABC Ltd.</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- END item -->
-              <div class="item">
-                <div class="row justify-content-center">
-                  <div class="col-lg-8 mx-auto">
-                    <div class="testimonial-block text-center">
-                      <blockquote class="mb-5">
-                        <p>&ldquo;The customer service team was very helpful, and the products exceeded my expectations. Highly recommended!&rdquo;</p>
-                      </blockquote>
-                      <div class="author-info">
-                        <div class="author-pic">
-                          <img src="{% static 'shop/images/person-1.png' %}" alt="Emily Brown" class="img-fluid">
-                        </div>
-                        <h3 class="font-weight-bold">Emily Brown</h3>
-                        <span class="position d-block mb-3">Manager, QRS Company</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- END item -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- End Testimonial Slider -->
+
 
   <!-- Start Blog Section -->
 <div class="blog-section">
@@ -248,7 +169,7 @@
             <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
                 <div class="post-entry">
                     <a href="{{ post.get_absolute_url }}" class="post-thumbnail">
-                        <img src="{% if post.images.first %}{{ post.images.first.image.url }}{% else %}{% static 'shop/images/default-post.jpg' %}{% endif %}" alt="{{ post.title }}" class="img-fluid">
+                        <img src="{% if post.images.first %}{{ post.images.first.image.url }}{% else %}{% static 'shop/images/default-post.jpg' %}{% endif %}" alt="{{ post.title }}" class="img-fluid fixed-size-image">
                     </a>
                     <div class="post-content-entry">
                         <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
@@ -264,4 +185,14 @@
     </div>
 </div>
 <!-- End Blog Section -->
+
+<!-- Custom CSS for Blog Post Images -->
+<style>
+    .fixed-size-image {
+        width: 370px;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 8px; /* Сохранение округлых углов */
+    }
+</style>
 {% endblock %}
