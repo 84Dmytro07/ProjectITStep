@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.contrib.auth.forms import UserCreationForm,PasswordChangeForm
 from django.views import View
-from .forms import SignUpForm, BlogPostForm, BlogImageForm, CommentForm, ContactForm, SubscriptionForm, UserUpdateForm, ProfileUpdateForm
+from .forms import SignUpForm, BlogPostForm, BlogImageForm, CommentForm, ContactForm, SubscriptionForm, UserUpdateForm, \
+    ProfileUpdateForm, SearchForm
 from .models import Category, Product, BlogPost, BlogImage, Comment, BlogCategory
 from shopping_cart.forms import CartAddProductForm
 import random
@@ -10,7 +11,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from orders.models import Order, OrderItem
 from django.contrib import messages
-from django.db.models import Count
+from django.db.models import Count, Q
+
 
 
 
@@ -274,3 +276,19 @@ def blog_detail(request, blog_id):
         'comments': comments,
         'comment_form': comment_form
     })
+
+
+
+
+
+def search(request):
+    query = request.GET.get('q')
+    products = Product.objects.filter(Q(name__icontains=query) | Q(description__icontains=query) | Q(category__name__icontains=query))
+    blog_posts = BlogPost.objects.filter(Q(title__icontains=query) | Q(content__icontains=query) | Q(category__name__icontains=query))
+
+    context = {
+        'products': products,
+        'blog_posts': blog_posts,
+        'query': query,
+    }
+    return render(request, 'shop/search_results.html', context)

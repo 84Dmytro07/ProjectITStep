@@ -1,0 +1,57 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <h2 class="h3 mb-3 text-black">Search Results for "{{ query }}"</h2>
+
+    <!-- Товары -->
+    <h3>Products</h3>
+    {% if products %}
+        <div class="row">
+            {% for product in products %}
+            <div class="col-12 col-md-4 col-lg-3 mb-5">
+                <a class="product-item" href="{{ product.get_absolute_url }}">
+                    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'shop/images/default-product.png' %}{% endif %}" class="img-fluid product-thumbnail" style="width: 156px; height: 156px; object-fit: cover;">
+                    <h3 class="product-title">{{ product.name }}</h3>
+                    <strong class="product-price">${{ product.price }}</strong>
+                    <span class="icon-cross">
+                        <img src="{% static 'shop/images/cross.svg' %}" class="img-fluid">
+                    </span>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No products found.</p>
+    {% endif %}
+
+    <!-- Блог посты -->
+    <h3>Blog Posts</h3>
+    {% if blog_posts %}
+        <div class="row">
+            {% for post in blog_posts %}
+            <div class="col-12 col-sm-6 col-md-4 mb-5">
+                <div class="post-entry">
+                    <a href="{{ post.get_absolute_url }}" class="post-thumbnail">
+                        {% if post.images.first %}
+                        <img src="{{ post.images.first.image.url }}" alt="{{ post.title }}" class="img-fluid" style="width: 356px; height: 246px; object-fit: cover; border-radius: 10px;">
+                        {% else %}
+                        <img src="{% static 'shop/images/default-post.jpg' %}" alt="Default Image" class="img-fluid" style="width: 356px; height: 246px; object-fit: cover; border-radius: 10px;">
+                        {% endif %}
+                    </a>
+                    <div class="post-content-entry">
+                        <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+                        <div class="meta">
+                            <span>by <a href="#">{{ post.author.username }}</a></span>
+                            <span>on <a href="#">{{ post.created_at|date:"F d, Y" }}</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No blog posts found.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -25,6 +25,7 @@ urlpatterns = [
     path('logout/', MyLogoutView.as_view(), name='logout'),
     path('shop/', views.product_list, name='product_list'),
     path('<int:id>/<slug:slug>', views.product_detail, name='product_detail'),
+    path('search/', views.search, name='search'),
 ]
 
 
