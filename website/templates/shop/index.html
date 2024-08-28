@@ -131,7 +131,13 @@
   <!-- Start Popular Product -->
 <div class="popular-product">
     <div class="container">
+            <div class="row mb-5">
+               <div class="col-md-6">
+                  <h2 class="section-title">Best Selling</h2>
+                </div>
+            </div>
         <div class="row">
+
             {% for product in popular_products %}
             <div class="col-12 col-md-6 col-lg-4 mb-4 mb-lg-0">
                 <div class="product-item-sm d-flex">
@@ -146,6 +152,7 @@
                 </div>
             </div>
             {% endfor %}
+
         </div>
     </div>
 </div>
