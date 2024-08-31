@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
             options={
                 'ordering': ('name',),
                 'indexes': [
-                    models.Index(fields=['id', 'slug']),
+                    models.Index(fields=['id', 'slug'], name='product_id_slug_idx'),
                 ],
             },
         ),

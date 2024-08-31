@@ -47,12 +47,12 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-
     class Meta:
         ordering = ('name',)
         indexes = [
-            models.Index(fields=['id', 'slug']),
+            models.Index(fields=['id', 'slug'], name='product_id_slug_idx'),
         ]
+
     def __str__(self):
         return self.name
 
